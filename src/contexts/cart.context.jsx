@@ -46,7 +46,7 @@ const INITIAL_STATE = {
 
 const CART_ACTION = {
   CART_ITEMS: "SET_CART_ITEMS",
-  CART_STATUS: "SET_CART_STATUS",
+  IS_CART_OPEN: "SET_CART_IS_CART_OPEN",
 };
 
 const cartReducer = (state, action) => {
@@ -58,7 +58,7 @@ const cartReducer = (state, action) => {
         ...state,
         ...payload,
       };
-    case CART_ACTION.CART_STATUS:
+    case CART_ACTION.IS_CART_OPEN:
       return {
         ...state,
         ...payload,
@@ -92,10 +92,6 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const updateCartStatus = (status) => {
-    dispatch(createAction(CART_ACTION.CART_STATUS, { isCartOpen: status }));
-  };
-
   const addItemToCart = (productToAdd) => {
     const newCartItems = addCartItem(cartItems, productToAdd);
     updateCartItemsReducer(newCartItems);
@@ -111,8 +107,12 @@ export const CartProvider = ({ children }) => {
     updateCartItemsReducer(newCartItems);
   };
 
+  const updateCartStatus = (status) => {
+    dispatch(createAction(CART_ACTION.IS_CART_OPEN, { isCartOpen: status }));
+  };
+
   const setIsCartOpen = (status) => {
-    updateCartStatus(isCartOpen);
+    updateCartStatus(status);
   };
 
   const value = {
