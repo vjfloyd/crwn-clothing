@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
+import { setCurrentUser } from "../../store/user/user.action";
 
 import {
   signInWithGooglePopup,
@@ -28,17 +29,14 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
 
       // setCurrentUser(user);
-
-      console.log("user response", user);
+      // console.log("user response", user);
       resetFormFields();
+      console.log("SIGN IN!!!");
     } catch (error) {
-      console.log("error", error);
+      console.log("user sign in failed", error);
       switch (error.code) {
         case "auth/wrong-password":
           alert("incorrect password !");

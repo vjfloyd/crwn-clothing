@@ -5,10 +5,13 @@ import { Fragment } from "react";
 import { CategoriesContext } from "../../contexts/categories.context";
 
 import "./category.styles.scss";
+import { useSelector } from "react-redux";
+import { categoriesSelector } from "../../store/category/category.selector";
 
 const Category = () => {
   const { category } = useParams();
-  const { categoriesMap } = useContext(CategoriesContext);
+  // const { categoriesMap } = useContext(CategoriesContext);
+  const categoriesMap = useSelector(categoriesSelector);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
