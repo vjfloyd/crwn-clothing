@@ -1,26 +1,15 @@
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 import {
-  getAuth,
-  signInWithRedirect,
-  signInWithPopup,
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
+  getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
 } from "firebase/auth";
 
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  writeBatch,
-  query,
-  getDocs,
-} from "firebase/firestore";
-import { useFetcher } from "react-router-dom";
+import {collection, doc, getDoc, getDocs, getFirestore, query, setDoc, writeBatch,} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBNHrup-WiQFmKvwcb9xkjy7uHbSYeMa8A",
@@ -112,11 +101,13 @@ export const getCategoriesAndCollections = async () => {
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
-  const categoryMap = await querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
+  // const categoryMap = await querySnapshot.docs.reduce((acc, docSnapshot) => {
+  //   const { title, items } = docSnapshot.data();
+  //   acc[title.toLowerCase()] = items;
+  //   return acc;
+  // }, {});
 
-  return categoryMap;
+  return await querySnapshot.docs.map((docSnapshot) => {
+    return docSnapshot.data();
+  });
 };

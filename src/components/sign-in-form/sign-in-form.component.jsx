@@ -8,6 +8,7 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import "./sign-in-form.styles.scss";
+import {setCurrentUser} from "../../store/user/user.action";
 
 const defaultFormFields = {
   email: "",
@@ -33,7 +34,7 @@ const SignInForm = () => {
         password
       );
 
-      // setCurrentUser(user);
+      setCurrentUser(user);
 
       console.log("user response", user);
       resetFormFields();

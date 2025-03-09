@@ -1,10 +1,17 @@
 import "./checkout-item.styles.scss";
-import { CartContext } from "../../contexts/cart.context";
-import { useContext } from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {addItemToCart, removeItem, subsItemToCart} from "../../store/carts/cart.action";
+import {selectCartItems} from "../../store/carts/cart.selector";
 
 const CheckoutItem = ({ item }) => {
   const { name, price, quantity, imageUrl } = item;
-  const { addItemToCart, subsItemToCart, removeItem } = useContext(CartContext);
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
+
+  const addItemHandler = () => dispatch(addItemToCart(cartItems,item));
+  const subsItemHandler = () => dispatch(subsItemToCart(cartItems,item));
+  const removeItemHandler = () => dispatch(removeItem(cartItems,item));
 
   return (
     <div className="checkout-item-container">
@@ -13,16 +20,16 @@ const CheckoutItem = ({ item }) => {
       </div>
       <span className="name"> {name}</span>
       <span className="quantity">
-        <div className="arrow" onClick={() => subsItemToCart(item)}>
+        <div className="arrow" onClick={() => subsItemHandler(item)}>
           &#10094;
         </div>
         <span className="value"> {quantity} </span>
-        <div className="arrow" onClick={() => addItemToCart(item)}>
+        <div className="arrow" onClick={() => addItemHandler(item)}>
           &#10095;
         </div>
       </span>
       <span className="price">{price}</span>
-      <div className="remove-button" onClick={() => removeItem(item)}>
+      <div className="remove-button" onClick={() => removeItemHandler(item)}>
         &#10005;
       </div>
     </div>
