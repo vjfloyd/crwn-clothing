@@ -26,4 +26,12 @@ export const selectCategoriesMap = createSelector(
                      console.log('items ', acc[title.toLowerCase()])
                      return acc;
                 }, {});
-    });
+});
+
+
+export const selectCategoryLoading = createSelector(
+    [selectCategoryReducer],
+    (categoriesSlice) => {
+        return categoriesSlice.isLoading;
+});
+
