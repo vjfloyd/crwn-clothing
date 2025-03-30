@@ -10,7 +10,7 @@ import Spinner from "../../components/spiner/spinner.component";
 
 const Category = () => {
   const { category } = useParams();
-  console.log('category xx=', category);
+  console.log('category yy=', category);
   const categoriesMap  = useSelector(selectCategoriesMap);
   const [products, setProducts] = useState([]);
   const isLoading = useSelector(selectCategoryLoading);
@@ -24,7 +24,7 @@ const Category = () => {
 
   return (
     <Fragment>
-      <h2 className="category-title"> {category.toUpperCase()} ss</h2>
+      <h2 className="category-title"> {category.toUpperCase()} </h2>
       {
         isLoading ? ( <Spinner/>) :
             (

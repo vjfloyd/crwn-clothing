@@ -1,24 +1,24 @@
 import { Routes, Route } from "react-router-dom";
-// import CategoriesPreview from "../../routes/category-preview/category-preview.component";
 import Category from "../../routes/category/category.component";
 
 import "./shop.styles.scss";
 import {useEffect} from "react";
-import {fetchCategoriesAsync} from "../../store/categories/category.action";
 import {useDispatch} from "react-redux";
-import CategoriesPreview from "../../routes/categories-preview/categories-preview.component";
+import {fetchCategoriesStart} from "../../store/categories/category.action";
+
 
 const Shop = () => {
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchCategoriesAsync());
-    }, []);
+        console.log('Dispatching fetchCategoriesStart');
+        dispatch(fetchCategoriesStart());
+    }, [dispatch]);
 
     return (
     <Routes>
-      <Route index element={<CategoriesPreview />} />
+      <Route index element={<Category />} />
       <Route path=":category" element={<Category />} />
     </Routes>
   );

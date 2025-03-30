@@ -33,18 +33,17 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) => {
-  console.log("uid ", userAuth.uid);
+export const createUserDocumentFromAuth =
+
+  async  (userAuth,  additionalInformation = {})=> {
+    console.log("userAuth=>", userAuth);
+  if (!userAuth) return;
+
   const userDocRef = doc(db, "users", userAuth.uid);
+    console.log("userDocRef=>", userDocRef);
+  const userSnapshot = await getDoc(userDocRef);
 
-  console.log(userDocRef);
-
-  const userSnapthost = await getDoc(userDocRef);
-  console.log(userSnapthost);
-
-  console.log(userSnapthost.exists());
-
-  if (!userSnapthost.exists()) {
+  if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
 
@@ -53,12 +52,15 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalInformation
       });
+      console.log('User document created successfully');
+
     } catch (error) {
       console.log("error creating the user", error.message);
     }
   }
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -74,9 +76,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const signOutUser = () => signOut(auth);
-
-export const onAuthStateChangedListener = (callback) =>
-  onAuthStateChanged(auth, callback);
 
 // EXPORT DATA ON FIREBASE
 
@@ -97,17 +96,23 @@ export const addCollectionsAndDocuments = async (
 };
 
 export const getCategoriesAndCollections = async () => {
+  console.log(" getCategoriesAndCollections -> start");
   const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
-  // const categoryMap = await querySnapshot.docs.reduce((acc, docSnapshot) => {
-  //   const { title, items } = docSnapshot.data();
-  //   acc[title.toLowerCase()] = items;
-  //   return acc;
-  // }, {});
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+};
 
-  return await querySnapshot.docs.map((docSnapshot) => {
-    return docSnapshot.data();
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
   });
 };
