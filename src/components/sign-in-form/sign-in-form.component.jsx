@@ -8,7 +8,8 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import "./sign-in-form.styles.scss";
-import {setCurrentUser} from "../../store/user/user.action";
+import {setCurrentUser} from "../../store/user/user.reducer";
+
 
 const defaultFormFields = {
   email: "",

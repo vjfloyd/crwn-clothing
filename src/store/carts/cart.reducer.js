@@ -1,28 +1,60 @@
-import {CART_TYPES} from "./cart.type";
+import {createSlice} from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {
+const CART_INITIAL_STATE = {
     isCartOpen: false,
     cartItems: [],
-    cartCount: 0,
-    cartTotal: 0,
-}
+};
 
-
-export const cartReducer = (state = INITIAL_STATE, action = {}) => {
-    const  { type, payload } = action;
-
-    switch (type) {
-        case CART_TYPES.SET_CART_ITEMS :
-            return {
-                ...state,
-                cartItems: payload
-            }
-        case CART_TYPES.SET_CART_OPEN:
-            return {
-                ...state,
-                isCartOpen: payload
-            }
-        default:
-            return  state;
+export const addCartItem = (cartItems, productToAdd) => {
+    const found = cartItems.find((item) => item.id === productToAdd.id);
+    if (found) {
+        return cartItems.map((item) =>
+            item.id === productToAdd.id
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+        );
     }
-}
+    return [...cartItems, { ...productToAdd, quantity: 1 }];
+};
+
+export const subtractCartItem = (cartItems, productToSubstract) => {
+    return cartItems
+        .map((item) =>
+            item.id === productToSubstract.id
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+        )
+        .filter((item) => item.quantity > 0);
+};
+
+export const removeItemFromCart = (cartItems, productToRemove) => {
+    return cartItems.filter((item) => item.id !== productToRemove.id);
+};
+
+
+export const cartSlice = createSlice({
+    name: "cart",
+    initialState: CART_INITIAL_STATE,
+    reducers: {
+        addItemToCart(state, action){
+            state.cartItems = addCartItem(state.cartItems, action.payload);
+        },
+        subsItemToCart(state, action){
+            state.cartItems = subtractCartItem(state.cartItems, action.payload);
+        },
+        removeItem(state, action){
+            state.cartItems = removeItemFromCart(state.cartItems, action.payload);
+        },
+        setCartOpen(state, action){
+            state.isCartOpen = action.payload;
+        }
+    }
+
+});
+
+
+export const { addItemToCart, removeItem
+    , subsItemToCart, setCartOpen } = cartSlice.actions;
+
+
+export const cartReducer = cartSlice.reducer;

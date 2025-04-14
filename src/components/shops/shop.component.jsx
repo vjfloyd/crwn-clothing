@@ -5,8 +5,8 @@ import Category from "../../routes/category/category.component";
 import "./shop.styles.scss";
 import {useEffect} from "react";
 import {getCategoriesAndCollections} from "../../utils/firebase/firebase.utils";
-import {setCategories} from "../../store/categories/category.action";
 import {useDispatch} from "react-redux";
+import {setCategories} from "../../store/categories/category.reducer";
 
 const Shop = () => {
 
