@@ -3,7 +3,7 @@ import Home from "./routes/home/home-component";
 import Navigation from "./routes/navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./components/shops/shop.component";
-import Checkout from "./components/checkout/checkout.component";
+import Checkout from "./routes/checkout/checkout.component";
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {
