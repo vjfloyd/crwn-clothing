@@ -6,6 +6,11 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@types/redux-logger": "^3.0.13",
     "firebase": "^9.22.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,6 +25,8 @@
     "reselect": "^5.1.1",
     "sass": "^1.63.4",
     "styled-components": "^6.0.7",
+    "typed-redux-saga": "^1.5.0",
+    "typescript": "^5.8.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -48,5 +55,8 @@
   },
   "resolutions": {
     "resolve-url-loader": "5.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-macros": "^3.1.0"
   }
 }
