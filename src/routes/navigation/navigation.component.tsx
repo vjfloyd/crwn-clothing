@@ -3,13 +3,12 @@ import { Outlet } from "react-router-dom";
 
 import { ReactComponent as CrwnLogo } from "./../../assets/crown.svg";
 
-import CartIcon from "./../../components/cart-icon/cart-icon.component";
+import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import {
   NavLink,
-  NavLiks,
   NavigationContainer,
-  LogoContainer,
+  LogoContainer, NavLinks,
 } from "./navigation.styles";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser} from "../../store/user/user.selector";
@@ -31,7 +30,7 @@ const Navigation = () => {
         <LogoContainer to="/">
           <CrwnLogo className="logo" />
         </LogoContainer>
-        <NavLiks>
+        <NavLinks>
           <NavLink to="/shop">SHOP</NavLink>
           {currentUser ? (
             <NavLink as="span" onClick={signOutUser}>
@@ -42,7 +41,7 @@ const Navigation = () => {
           )}
           <CartIcon />
           {isCartOpen && <CartDropdown />}
-        </NavLiks>
+        </NavLinks>
       </NavigationContainer>
       <Outlet />
     </Fragment>

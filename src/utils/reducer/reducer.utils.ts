@@ -1,8 +1,5 @@
-import {ActionCreator, AnyAction} from "redux";
+import {AnyAction} from "redux";
 
-export type Action<T> = {
-    type: T;
-}
 
 type Matchable<AC extends () => AnyAction> = AC & {
     type: ReturnType<AC>['type'];
@@ -11,10 +8,12 @@ type Matchable<AC extends () => AnyAction> = AC & {
 
 export function withMatcher<AC extends () => AnyAction & { type: string }>(actionCreator: AC): Matchable<AC>;
 
-export function withMatcher<AC extends ( ...arg: any[]) => AnyAction & { type: string }>(actionCreator: AC): Matchable<AC>;
+export function withMatcher<AC extends (...arg: any[]) => AnyAction & {
+    type: string
+}>(actionCreator: AC): Matchable<AC>;
 
-export function withMatcher(actionCreator: Function){
-    const type =  actionCreator().type;
+export function withMatcher(actionCreator: Function) {
+    const type = actionCreator().type;
 
     return Object.assign(actionCreator, {
         type,
@@ -22,7 +21,12 @@ export function withMatcher(actionCreator: Function){
             return action.type === type;
         }
     })
-};
+}
+
+
+export type Action<T> = {
+    type: T;
+}
 
 
 export type ActionWithPayload<T, P> = {
@@ -30,9 +34,23 @@ export type ActionWithPayload<T, P> = {
     payload: P;
 };
 
-export function createAction<T extends string, P>(type: T, payload: P): ActionWithPayload<T, P>;
-export function createAction<T extends string, P>(type: T): Action<T>;
-export function createAction<T extends string, P>(type: T, payload?: P): Action<T> | ActionWithPayload<T, P> {
+export function createAction<T extends string, P>(
+    type: T,
+    payload: P
+): ActionWithPayload<T, P>;
+
+
+
+export function createAction<T extends string, P>(
+    type: T,
+    payload: void
+): Action<T>;
+
+
+export function createAction<T extends string, P>(
+    type: T,
+    payload?: P
+): Action<T> | ActionWithPayload<T, P> {
     return payload ? {type, payload} : {type};
 }
 
